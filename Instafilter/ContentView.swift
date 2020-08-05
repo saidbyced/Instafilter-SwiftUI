@@ -16,6 +16,8 @@ struct ContentView: View {
     @State private var showingImagePicker = false
     @State private var inputImage: UIImage?
     
+    let imageSaver = ImageSaver()
+    
     var body: some View {
         VStack {
             image?
@@ -34,6 +36,7 @@ struct ContentView: View {
     func loadImage() {
         guard let inputImage = inputImage else { return }
         image = Image(uiImage: inputImage)
+        imageSaver.writeToPhotoAlbum(image: inputImage)
     }
     
 }
