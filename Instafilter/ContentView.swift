@@ -11,8 +11,38 @@ import CoreImage
 import CoreImage.CIFilterBuiltins
 
 struct ContentView: View {
+    @State private var image: Image?
+    @State private var filterIntensity = 0.5
+    
     var body: some View {
-        Text("Hello, nurse.")
+        NavigationView {
+            VStack {
+                ZStack {
+                    Rectangle()
+                        .fill(Color.secondary)
+                    // TODO: Display the image
+                }
+                .onTapGesture {
+                    // TODO: Select an image
+                }
+                HStack {
+                    Text("Intensity")
+                    Slider(value: self.$filterIntensity)
+                }
+                .padding(.vertical)
+                HStack {
+                    Button("Change Filter", action: {
+                        // TODO: Change filter
+                    })
+                    Spacer()
+                    Button("Save", action: {
+                        // TODO: Save the picture
+                    })
+                }
+            }
+            .padding([.horizontal, .bottom])
+            .navigationBarTitle("Instafilter")
+        }
     }
 }
 
