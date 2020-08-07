@@ -20,7 +20,15 @@ struct ContentView: View {
                 ZStack {
                     Rectangle()
                         .fill(Color.secondary)
-                    // TODO: Display the image
+                    if image != nil {
+                        image?
+                            .resizable()
+                            .scaledToFit()
+                    } else {
+                        Text("Tap to select a picture")
+                            .foregroundColor(.white)
+                            .font(.headline)
+                    }
                 }
                 .onTapGesture {
                     // TODO: Select an image
