@@ -9,6 +9,7 @@
 import SwiftUI
 
 struct ImagePicker: UIViewControllerRepresentable {
+    // FIXME: Find bug causing this to not conform to UIViewControllerRepresentable
     @Environment(\.presentationMode) var presentationMode
     @Binding var image: UIImage?
 
