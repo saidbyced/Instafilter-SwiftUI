@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		AE28ECE124DD848500BFE0E7 /* ImagePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE28ECE024DD848500BFE0E7 /* ImagePicker.swift */; };
 		AED9FF5624D98DFC007D2853 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = AED9FF5524D98DFC007D2853 /* AppDelegate.swift */; };
 		AED9FF5824D98DFC007D2853 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = AED9FF5724D98DFC007D2853 /* SceneDelegate.swift */; };
 		AED9FF5A24D98DFC007D2853 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AED9FF5924D98DFC007D2853 /* ContentView.swift */; };
@@ -33,6 +34,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		AE28ECE024DD848500BFE0E7 /* ImagePicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagePicker.swift; sourceTree = "<group>"; };
 		AED9FF5224D98DFC007D2853 /* Instafilter.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Instafilter.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		AED9FF5524D98DFC007D2853 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		AED9FF5724D98DFC007D2853 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -96,6 +98,7 @@
 				AED9FF5524D98DFC007D2853 /* AppDelegate.swift */,
 				AED9FF5724D98DFC007D2853 /* SceneDelegate.swift */,
 				AED9FF5924D98DFC007D2853 /* ContentView.swift */,
+				AE28ECE024DD848500BFE0E7 /* ImagePicker.swift */,
 				AED9FF5B24D98DFE007D2853 /* Assets.xcassets */,
 				AED9FF6024D98DFE007D2853 /* LaunchScreen.storyboard */,
 				AED9FF6324D98DFE007D2853 /* Info.plist */,
@@ -244,6 +247,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				AED9FF5624D98DFC007D2853 /* AppDelegate.swift in Sources */,
+				AE28ECE124DD848500BFE0E7 /* ImagePicker.swift in Sources */,
 				AED9FF5824D98DFC007D2853 /* SceneDelegate.swift in Sources */,
 				AED9FF5A24D98DFC007D2853 /* ContentView.swift in Sources */,
 			);
