@@ -9,12 +9,11 @@
 import SwiftUI
 
 struct ImagePicker: UIViewControllerRepresentable {
-    // FIXME: Find bug causing this to not conform to UIViewControllerRepresentable
     @Environment(\.presentationMode) var presentationMode
     @Binding var image: UIImage?
 
     class Coordinator: NSObject, UINavigationControllerDelegate, UIImagePickerControllerDelegate {
-        let parent: ImagePicker
+        var parent: ImagePicker
         
         func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey: Any]) {
             if let uiImage = info[.originalImage] as? UIImage? {
@@ -33,7 +32,7 @@ struct ImagePicker: UIViewControllerRepresentable {
         Coordinator(self)
     }
     
-    func makeUIViewController(context: UIViewControllerRepresentableContext<ImagePicker>) -> some UIImagePickerController {
+    func makeUIViewController(context: UIViewControllerRepresentableContext<ImagePicker>) -> UIImagePickerController {
         let picker = UIImagePickerController()
         picker.delegate = context.coordinator
         return picker
