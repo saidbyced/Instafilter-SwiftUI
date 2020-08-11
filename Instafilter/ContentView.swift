@@ -12,44 +12,27 @@ import CoreImage.CIFilterBuiltins
 
 struct ContentView: View {
     @State private var image: Image?
-    @State private var filterIntensity = 0.5
+    @State private var showingImagePicker = false
+    
+    @State private var inputImage: UIImage?
+    
+    func loadImage() {
+        guard let inputImage = inputImage else { return }
+        image = Image(uiImage: inputImage)
+    }
     
     var body: some View {
-        NavigationView {
-            VStack {
-                ZStack {
-                    Rectangle()
-                        .fill(Color.secondary)
-                    if image != nil {
-                        image?
-                            .resizable()
-                            .scaledToFit()
-                    } else {
-                        Text("Tap to select a picture")
-                            .foregroundColor(.white)
-                            .font(.headline)
-                    }
-                }
-                .onTapGesture {
-                    // TODO: Select an image
-                }
-                HStack {
-                    Text("Intensity")
-                    Slider(value: self.$filterIntensity)
-                }
-                .padding(.vertical)
-                HStack {
-                    Button("Change Filter", action: {
-                        // TODO: Change filter
-                    })
-                    Spacer()
-                    Button("Save", action: {
-                        // TODO: Save the picture
-                    })
-                }
+        VStack {
+            image?
+                .resizable()
+                .scaledToFit()
+            
+            Button("Select Image") {
+                self.showingImagePicker = true
             }
-            .padding([.horizontal, .bottom])
-            .navigationBarTitle("Instafilter")
+        }
+        .sheet(isPresented: $showingImagePicker, onDismiss: loadImage) {
+            ImagePicker(image: self.$inputImage)
         }
     }
 }
