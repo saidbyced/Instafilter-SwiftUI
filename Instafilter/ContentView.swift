@@ -17,9 +17,26 @@ struct ContentView: View {
     @State private var inputImage: UIImage?
     @State private var showingImagePickerView = false
     
+    @State private var currentFilter = CIFilter.sepiaTone()
+    let context = CIContext()
+    
     func loadImage() {
         guard let inputImage = inputImage else { return }
-        image = Image(uiImage: inputImage)
+        
+        let beginImage = CIImage(image: inputImage)
+        currentFilter.setValue(beginImage, forKey: kCIInputImageKey)
+        applyProcessing()
+    }
+    
+    func applyProcessing() {
+        currentFilter.intensity = Float(filterIntensity)
+        
+        guard let outputImage = currentFilter.outputImage else { return }
+        
+        if let cgImage = context.createCGImage(outputImage, from: outputImage.extent) {
+            let uiImage = UIImage(cgImage: cgImage)
+            image = Image(uiImage: uiImage)
+        }
     }
     
     var body: some View {
