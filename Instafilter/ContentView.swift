@@ -17,19 +17,18 @@ struct ContentView: View {
     @State private var inputImage: UIImage?
     @State private var showingImagePickerView = false
     
-    @State private var currentFilter = CIFilter.sepiaTone()
+    @State private var currentFilter: CIFilter = CIFilter.sepiaTone()
     let context = CIContext()
     
-    func loadImage() {
-        guard let inputImage = inputImage else { return }
-        
-        let beginImage = CIImage(image: inputImage)
-        currentFilter.setValue(beginImage, forKey: kCIInputImageKey)
-        applyProcessing()
-    }
+    @State private var showingFilterSheet = false
     
     func applyProcessing() {
-        currentFilter.intensity = Float(filterIntensity)
+        let inputKeys = currentFilter.inputKeys
+        if inputKeys.contains(kCIInputIntensityKey) { currentFilter.setValue(filterIntensity, forKey: kCIInputIntensityKey) }
+        if inputKeys.contains(kCIInputRadiusKey) { currentFilter.setValue(filterIntensity * 200, forKey: kCIInputRadiusKey) }
+        if inputKeys.contains(kCIInputScaleKey) {
+            currentFilter.setValue(filterIntensity * 10, forKey: kCIInputScaleKey)
+        }
         
         guard let outputImage = currentFilter.outputImage else { return }
         
@@ -39,8 +38,31 @@ struct ContentView: View {
         }
     }
     
+    func loadImage() {
+        guard let inputImage = inputImage else { return }
+        
+        let beginImage = CIImage(image: inputImage)
+        currentFilter.setValue(beginImage, forKey: kCIInputImageKey)
+        applyProcessing()
+    }
+    
+    func setFilter(_ filter: CIFilter) {
+        currentFilter = filter
+        loadImage()
+    }
+    
     var body: some View {
-        NavigationView {
+        let intensity = Binding<Double>(
+            get: {
+                self.filterIntensity
+            },
+            set: {
+                self.filterIntensity = $0
+                self.applyProcessing()
+            }
+        )
+        
+        return NavigationView {
             VStack {
                 ZStack {
                     Rectangle()
@@ -60,12 +82,12 @@ struct ContentView: View {
                 }
                 HStack {
                     Text("Intensity")
-                    Slider(value: self.$filterIntensity)
+                    Slider(value: intensity)
                 }
                 .padding(.vertical)
                 HStack {
                     Button("Change Filter", action: {
-                        // TODO: Change filter
+                        self.showingFilterSheet = true
                     })
                     Spacer()
                     Button("Save", action: {
@@ -82,6 +104,42 @@ struct ContentView: View {
                     ImagePicker(image: self.$inputImage)
                 }
             )
+            .actionSheet(isPresented: $showingFilterSheet, content: {
+                ActionSheet(
+                    title: Text("Select a filter"),
+                    buttons: [
+                        .default(
+                            Text("Crystallise"),
+                            action: { self.setFilter(CIFilter.crystallize()) }
+                        ),
+                        .default(
+                            Text("Edges"),
+                            action: { self.setFilter(CIFilter.edges()) }
+                        ),
+                        .default(
+                            Text("Gaussian Blur"),
+                            action: { self.setFilter(CIFilter.gaussianBlur()) }
+                        ),
+                        .default(
+                            Text("Pixellate"),
+                            action: { self.setFilter(CIFilter.pixellate()) }
+                        ),
+                        .default(
+                            Text("Sepia Tone"),
+                            action: { self.setFilter(CIFilter.sepiaTone()) }
+                        ),
+                        .default(
+                            Text("Unsharp Mark"),
+                            action: { self.setFilter(CIFilter.unsharpMask()) }
+                        ),
+                        .default(
+                            Text("Vignette"),
+                            action: { self.setFilter(CIFilter.vignette()) }
+                        ),
+                        .cancel()
+                    ]
+                )
+            })
         }
     }
 }
