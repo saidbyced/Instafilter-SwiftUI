@@ -22,6 +22,8 @@ struct ContentView: View {
     
     @State private var showingFilterSheet = false
     
+    @State private var processedImage: UIImage?
+    
     func applyProcessing() {
         let inputKeys = currentFilter.inputKeys
         if inputKeys.contains(kCIInputIntensityKey) { currentFilter.setValue(filterIntensity, forKey: kCIInputIntensityKey) }
@@ -35,6 +37,7 @@ struct ContentView: View {
         if let cgImage = context.createCGImage(outputImage, from: outputImage.extent) {
             let uiImage = UIImage(cgImage: cgImage)
             image = Image(uiImage: uiImage)
+            processedImage = uiImage
         }
     }
     
@@ -91,7 +94,10 @@ struct ContentView: View {
                     })
                     Spacer()
                     Button("Save", action: {
-                        // TODO: Save the picture
+                        guard let processedImage = self.processedImage else { return }
+                        
+                        let imageSaver = ImageSaver()
+                        imageSaver.writeToPhotoAlbum(image: processedImage)
                     })
                 }
             }
