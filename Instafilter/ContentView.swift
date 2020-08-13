@@ -121,6 +121,10 @@ struct ContentView: View {
                             action: { self.setFilter(CIFilter.gaussianBlur()) }
                         ),
                         .default(
+                            Text("Monochrome"),
+                            action: { self.setFilter(CIFilter.colorMonochrome()) }
+                        ),
+                        .default(
                             Text("Pixellate"),
                             action: { self.setFilter(CIFilter.pixellate()) }
                         ),
@@ -136,6 +140,31 @@ struct ContentView: View {
                             Text("Vignette"),
                             action: { self.setFilter(CIFilter.vignette()) }
                         ),
+                        // Diable intensity slider before allowing:
+//                        .default(
+//                            Text("Chrome"),
+//                            action: { self.setFilter(CIFilter.photoEffectChrome()) }
+//                        ),
+//                        .default(
+//                            Text("Dot Screen"),
+//                            action: { self.setFilter(CIFilter.dotScreen()) }
+//                        ),
+//                        .default(
+//                            Text("Fade"),
+//                            action: { self.setFilter(CIFilter.photoEffectFade()) }
+//                        ),
+//                        .default(
+//                            Text("False Color"),
+//                            action: { self.setFilter(CIFilter.falseColor()) }
+//                        ),
+//                        .default(
+//                            Text("Kaleidoscope"),
+//                            action: { self.setFilter(CIFilter.kaleidoscope()) }
+//                        ),
+//                        .default(
+//                            Text("Mono"),
+//                            action: { self.setFilter(CIFilter.photoEffectMono()) }
+//                        ),
                         .cancel()
                     ]
                 )
