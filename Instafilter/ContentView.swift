@@ -18,6 +18,7 @@ struct ContentView: View {
     @State private var showingImagePickerView = false
     
     @State private var currentFilter: CIFilter = CIFilter.sepiaTone()
+    @State private var currentFilterName: String = "Sepia Tone"
     let context = CIContext()
     
     @State private var showingFilterSheet = false
@@ -89,7 +90,7 @@ struct ContentView: View {
                 }
                 .padding(.vertical)
                 HStack {
-                    Button("Change Filter", action: {
+                    Button(currentFilterName, action: {
                         self.showingFilterSheet = true
                     })
                     Spacer()
@@ -126,35 +127,59 @@ struct ContentView: View {
                     buttons: [
                         .default(
                             Text("Crystallise"),
-                            action: { self.setFilter(CIFilter.crystallize()) }
+                            action: {
+                                self.setFilter(CIFilter.crystallize())
+                                self.currentFilterName = "Crystallise"
+                            }
                         ),
                         .default(
                             Text("Edges"),
-                            action: { self.setFilter(CIFilter.edges()) }
+                            action: {
+                                self.setFilter(CIFilter.edges())
+                                self.currentFilterName = "Edges"
+                            }
                         ),
                         .default(
                             Text("Gaussian Blur"),
-                            action: { self.setFilter(CIFilter.gaussianBlur()) }
+                            action: {
+                                self.setFilter(CIFilter.gaussianBlur())
+                                self.currentFilterName = "Gaussian Blur"
+                            }
                         ),
                         .default(
                             Text("Monochrome"),
-                            action: { self.setFilter(CIFilter.colorMonochrome()) }
+                            action: {
+                                self.setFilter(CIFilter.colorMonochrome())
+                                self.currentFilterName = "Monochrome"
+                            }
                         ),
                         .default(
                             Text("Pixellate"),
-                            action: { self.setFilter(CIFilter.pixellate()) }
+                            action: {
+                                self.setFilter(CIFilter.pixellate())
+                                self.currentFilterName = "Pixellate"
+                            }
                         ),
                         .default(
                             Text("Sepia Tone"),
-                            action: { self.setFilter(CIFilter.sepiaTone()) }
+                            action: {
+                                self.setFilter(CIFilter.sepiaTone())
+                                self.currentFilterName = "Sepia Tone"
+                            }
                         ),
                         .default(
                             Text("Unsharp Mark"),
-                            action: { self.setFilter(CIFilter.unsharpMask()) }
+                            action: {
+                                self.setFilter(CIFilter.unsharpMask())
+                                self.currentFilterName = "Unsharp Mark"
+                            }
                         ),
                         .default(
                             Text("Vignette"),
-                            action: { self.setFilter(CIFilter.vignette()) }
+                            action: {
+                                self.setFilter(CIFilter.vignette())
+                                self.currentFilterName = "Vignette"
+                            }
                         ),
                         // Diable intensity slider before allowing:
 //                        .default(
