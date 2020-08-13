@@ -97,6 +97,15 @@ struct ContentView: View {
                         guard let processedImage = self.processedImage else { return }
                         
                         let imageSaver = ImageSaver()
+                        
+                        imageSaver.successHandler = {
+                            print("Success!")
+                        }
+                        
+                        imageSaver.errorHandler = {
+                            print("Oops: \($0.localizedDescription)")
+                        }
+                        
                         imageSaver.writeToPhotoAlbum(image: processedImage)
                     })
                 }
