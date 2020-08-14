@@ -12,11 +12,11 @@ import CoreImage.CIFilterBuiltins
 
 struct ContentView: View {
     @State private var image: Image?
-    @State private var intensitySliderNeeded = true
+    @State private var intensitySliderHidden = false
     @State private var filterIntensity = 0.5
-    @State private var radiusSliderNeeded = false
+    @State private var radiusSliderHidden = true
     @State private var filterRadius = 0.5
-    @State private var scaleSliderNeeded = false
+    @State private var scaleSliderHidden = true
     @State private var filterScale = 0.5
     
     @State private var inputImage: UIImage?
@@ -32,10 +32,22 @@ struct ContentView: View {
     
     func applyProcessing() {
         let inputKeys = currentFilter.inputKeys
-        if inputKeys.contains(kCIInputIntensityKey) { currentFilter.setValue(filterIntensity, forKey: kCIInputIntensityKey) }
-        if inputKeys.contains(kCIInputRadiusKey) { currentFilter.setValue(filterIntensity * 200, forKey: kCIInputRadiusKey) }
+        
+        intensitySliderHidden = true
+        radiusSliderHidden = true
+        scaleSliderHidden = true
+        
+        if inputKeys.contains(kCIInputIntensityKey) {
+            currentFilter.setValue(filterIntensity, forKey: kCIInputIntensityKey)
+            intensitySliderHidden = false
+        }
+        if inputKeys.contains(kCIInputRadiusKey) {
+            currentFilter.setValue(filterRadius * 200, forKey: kCIInputRadiusKey)
+            radiusSliderHidden = false
+        }
         if inputKeys.contains(kCIInputScaleKey) {
-            currentFilter.setValue(filterIntensity * 10, forKey: kCIInputScaleKey)
+            currentFilter.setValue(filterScale * 10, forKey: kCIInputScaleKey)
+            scaleSliderHidden = false
         }
         
         guard let outputImage = currentFilter.outputImage else { return }
@@ -70,6 +82,24 @@ struct ContentView: View {
                 self.applyProcessing()
             }
         )
+        let radius = Binding<Double>(
+            get: {
+                self.filterRadius
+            },
+            set: {
+                self.filterRadius = $0
+                self.applyProcessing()
+            }
+        )
+        let scale = Binding<Double>(
+            get: {
+                self.filterScale
+            },
+            set: {
+                self.filterScale = $0
+                self.applyProcessing()
+            }
+        )
         
         return NavigationView {
             VStack {
@@ -89,19 +119,6 @@ struct ContentView: View {
                 .onTapGesture {
                     self.showingImagePickerView = true
                 }
-                HStack {
-                    Text("Intensity")
-                    Slider(value: intensity)
-                }
-                HStack {
-                    Text("Intensity")
-                    Slider(value: intensity)
-                }
-                HStack {
-                    Text("Intensity")
-                    Slider(value: intensity)
-                }
-                .padding(.vertical)
                 HStack {
                     Button(currentFilterName, action: {
                         self.showingFilterSheet = true
@@ -124,8 +141,41 @@ struct ContentView: View {
                     })
                     .disabled(image == nil)
                 }
+                .padding(.top, 10)
+                .padding(.horizontal, 20)
+                Divider()
+                VStack {
+                    HStack {
+                        Text("Intensity")
+                            .frame(minWidth: 70, alignment: .leading)
+                            .padding(.leading, 20)
+                            .padding(.trailing, 5)
+                        Slider(value: intensity)
+                            .padding(.trailing, 25)
+                            .disabled(intensitySliderHidden)
+                    }
+                    HStack {
+                        Text("Radius")
+                            .frame(minWidth: 70, alignment: .leading)
+                            .padding(.leading, 20)
+                            .padding(.trailing, 5)
+                        Slider(value: radius)
+                            .padding(.trailing, 25)
+                            .disabled(radiusSliderHidden)
+                        
+                    }
+                    HStack {
+                        Text("Scale")
+                            .frame(minWidth: 70, alignment: .leading)
+                            .padding(.leading, 20)
+                            .padding(.trailing, 5)
+                        Slider(value: scale)
+                            .padding(.trailing, 25)
+                            .disabled(scaleSliderHidden)
+                    }
+                }
+                .padding(.bottom)
             }
-            .padding([.horizontal, .bottom])
             .navigationBarTitle("Instafilter")
             .sheet(
                 isPresented: $showingImagePickerView,
