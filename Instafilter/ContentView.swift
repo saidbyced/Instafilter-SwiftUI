@@ -12,7 +12,12 @@ import CoreImage.CIFilterBuiltins
 
 struct ContentView: View {
     @State private var image: Image?
+    @State private var intensitySliderNeeded = true
     @State private var filterIntensity = 0.5
+    @State private var radiusSliderNeeded = false
+    @State private var filterRadius = 0.5
+    @State private var scaleSliderNeeded = false
+    @State private var filterScale = 0.5
     
     @State private var inputImage: UIImage?
     @State private var showingImagePickerView = false
@@ -83,6 +88,14 @@ struct ContentView: View {
                 }
                 .onTapGesture {
                     self.showingImagePickerView = true
+                }
+                HStack {
+                    Text("Intensity")
+                    Slider(value: intensity)
+                }
+                HStack {
+                    Text("Intensity")
+                    Slider(value: intensity)
                 }
                 HStack {
                     Text("Intensity")
